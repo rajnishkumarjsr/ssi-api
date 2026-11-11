@@ -1,0 +1,27 @@
+service: ssi-api
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-south-1
+  stage: dev
+
+
+# for the AJU AWS Account
+  environment:
+    DB_HOST: ssi.c96i24060dhc.ap-south-1.rds.amazonaws.com 
+    DB_PORT: 3306
+    DB_USER: root
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ssi
+
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /
+          method: ANY
